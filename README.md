@@ -24,15 +24,20 @@ Você não precisa instalar nenhum compilador, emulador ou dependência. Basta u
    * O **maior número visível** na sua tela sem precisar usar a barra de rolagem horizontal (ideal para jogar tanto no celular quanto no computador).
    * O **tema** que você deseja jogar (ex: *Mansão Assombrada*, *Estação Espacial*, *Masmorra Medieval*, ou qualquer ideia original sua).
 
+> **💡 Nota de Compatibilidade:** Embora este prompt tenha sido projetado com a intenção de funcionar em todas as IAs generativas modernas, até o momento ele **foi testado e homologado apenas no Google Gemini**.
+
 ## 🎮 Como Jogar e Mecânicas
 
 Diferente dos jogos modernos que entregam todas as respostas na tela, aqui **você precisa investigar o ambiente**:
 
+* **Estética Fiel ao CP400 (Padrão MC6847 e Tela Dividida):** Todo o texto do jogo é exibido sem acentos ou cedilha (simulando o gerador de caracteres ASCII de 7 bits do CP400) e com descrições telegráficas enxutas, organizadas no clássico formato *Split-Screen* (*Scott Adams*): janela do cenário + `ITENS VISIVEIS` + `SAIDAS OBVIAS` no topo, separados por uma linha divisória com o feedback do interpretador BASIC logo abaixo.
+* **Mapas Consistentes (Matriz de 20 a 30 Salas):** Cada aventura gerada possui entre **20 e 30 salas** mapeadas internamente em coordenadas cartesianas fixas (como uma matriz `DIM` no Color BASIC), garantindo que os caminhos de ida e volta (`NORTE` ↔ `SUL`, `LESTE` ↔ `OESTE`) sejam 100% simétricos e permitindo desenhar mapas reais no papel.
 * **Sem Comandos Prontos na Tela:** A descrição do cenário apresenta apenas o ambiente, os objetos visíveis e as saídas disponíveis. Cabe a você deduzir quais ações tomar.
-* **Objetos Dinâmicos no Cenário:** Todo item que pode ser coletado aparece desenhado (com seu respectivo emoji ou símbolo) dentro da arte ASCII da sala. Quando você pega o item, ele desaparece da ilustração do cenário.
+* **Objetos Dinâmicos no Cenário:** Todo item que pode ser coletado aparece desenhado (com seu respectivo emoji ou símbolo) dentro da arte ASCII da sala. Quando você pega o item, ele desaparece da ilustração do cenário e da lista de itens visíveis.
 * **Inventário Limitado (Máximo de 6 Itens):** Você só pode carregar até **6 itens** simultaneamente. Para resolver certos enigmas, será necessário gerenciar sua mochila e deixar itens em salas estratégicas para buscá-los depois.
+* **Combinação de Itens:** Alguns desafios exigem unir dois itens diferentes (encontrados na mesma sala ou em salas distintas) para criar uma nova ferramenta ou objeto. Quando dois itens são combinados, o novo item passa a ocupar apenas **1 espaço** no inventário.
 * **Descarte e Persistência:** Ao soltar um item em qualquer sala, ele sai do seu inventário e passa a aparecer desenhado no cenário daquela sala, permanecendo lá até que você volte para pegá-lo.
-* **Perigo Real:** Ações imprudentes podem levar ao clássico *Game Over*. Pense antes de agir!
+* **Escuridão e Fonte de Luz:** Assim como nos clássicos dos anos 80, áreas escuras exigem uma fonte de luz ativa (lanterna com pilhas, tocha acesa, lampião). Avançar às cegas na escuridão sem iluminar o ambiente pode levar a armadilhas fatais e ao clássico *Game Over*!
 
 ## ⌨️ Exemplos de Comandos
 
@@ -43,8 +48,9 @@ O sistema reconhece comandos curtos e diretos no estilo clássico (`VERBO` ou `V
 | **Movimentação** | `NORTE`, `SUL`, `LESTE`, `OESTE` (ou `N`, `S`, `L`, `O`), `SUBIR`, `DESCER` | Move o personagem para as saídas disponíveis no cenário. |
 | **Observação** | `OLHAR`, `EXAMINAR MESA`, `LER BILHETE` | Descreve novamente a sala ou inspeciona um objeto em detalhe. |
 | **Manipulação** | `PEGAR CHAVE`, `LARGAR LANTERNA`, `DEIXAR CORDA` | Coleta um item visível na sala ou solta um item do inventário no chão. |
+| **Combinação** | `COMBINAR CORDA GANCHO`, `UNIR PILHA LANTERNA` | Une dois itens do inventário para formar um novo item (ocupa 1 espaço). |
 | **Interação** | `ABRIR PORTA`, `USAR CHAVE`, `ACENDER TOCHA`, `EMPURRAR ESTATUA` | Interage com elementos do cenário ou utiliza itens carregados. |
-| **Sistema** | `INVENTARIO` (ou `I`), `AJUDA` | Lista os itens carregados (com limite de 6) ou pede dicas contextuais. |
+| **Sistema** | `INVENTARIO` (ou `I`), `PONTOS` (ou `SCORE`), `AJUDA`, `REINICIAR AVENTURA` | Lista os itens carregados, consulta a pontuação (0 a 100), pede dicas ou reinicia o jogo. |
 
 ## 🖥️ Exemplos de Telas do Jogo (Modo 80 Colunas)
 
@@ -54,7 +60,7 @@ Logo ao iniciar o prompt, o jogo calibra o tamanho do quadro negro para o seu di
 
 ```text
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
-         10        20        30        40        50        60        70        80
+        10        20        30        40        50        60        70        80
 
 ╔════════════════════════════════╗
 ║   🕹️  ADVENTURE RETRO  👾      ║
@@ -78,7 +84,7 @@ INFORME A LARGURA E O TEMA: > _
 Em modo de 80 colunas, os cenários ganham riqueza panorâmica. Note que a **lanterna** (`🔦`), o **cartão magnético** (`💳`) e a **chave** (`🗝️`) estão visíveis na sala:
 
 ```text
-SALA DE CONTROLE PRINCIPAL - SETOR ALFA                 PONTOS: 010 | TURNO: 04
+SALA DE CONTROLE PRINCIPAL - SETOR ALFA              PONTOS: 010/100 | TURNO: 04
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ║
 ║  ░░┌────────────────────────┐░░░░░░╔══════════════════╗░░░░░░┌────────────┐░░  ║
@@ -91,35 +97,39 @@ SALA DE CONTROLE PRINCIPAL - SETOR ALFA                 PONTOS: 010 | TURNO: 04
 ║  ░░█  [o][o][o]   🗝️   ===  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█  ════════  █░░  ║
 ║  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
-Voce esta na sala de controle principal da estacao. Um monitor principal exibe
-falhas criticas no sistema e uma escotilha blindada bloqueia a passagem ao norte.
-Sobre o console central ha uma CHAVE enferrujada. Na bancada a direita repousam
-uma LANTERNA tatica e um CARTAO magnetico.
-
-SAIDAS: SUL, OESTE.
-
+Voce esta na sala de controle principal da estacao. Um monitor exibe falhas no
+sistema e uma escotilha blindada bloqueia a passagem ao norte.
+ITENS VISIVEIS: CHAVE ENFERRUJADA, LANTERNA TATICA, CARTAO MAGNETICO.
+SAIDAS OBVIAS: SUL, OESTE.
+--------------------------------------------------------------------------------
+OK.
 O QUE VOCE FAZ AGORA? > PEGAR CHAVE
 ```
 
 ### 3. Exemplo de Cenário (80 Colunas — Após pegar o item) e Inventário
 
-Após o comando `PEGAR CHAVE`, o desenho `🗝️` desaparece automaticamente do console central na arte ASCII:
+Após o comando `PEGAR CHAVE`, o desenho `🗝️` desaparece automaticamente do console central na arte ASCII e da lista de `ITENS VISIVEIS`:
 
 ```text
-SALA DE CONTROLE PRINCIPAL - SETOR ALFA                 PONTOS: 015 | TURNO: 05
+SALA DE CONTROLE PRINCIPAL - SETOR ALFA              PONTOS: 015/100 | TURNO: 05
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ║
 ║  ░░┌────────────────────────┐░░░░░░╔══════════════════╗░░░░░░┌────────────┐░░  ║
 ║  ░░│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │░░░░░░║   🚪  [TRANCADA] ║░░░░░░│  ⚠️ ALERTA │░░  ║
-║  ░░│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │░░░░░░║   ╔══════════╗   ║░░░░░░│  [04:12]   │░░  ║
-║  ░░│ ▓  SISTEMA: OFFLINE  ▓ │░░░░░░║   ║ ░░░░░░░░ ║   ║░░░░░░└────────────┘░░  ║
+║  ░░│ ▓  SISTEMA: OFFLINE  ▓ │░░░░░░║   ╔══════════╗   ║░░░░░░│  [04:12]   │░░  ║
+║  ░░│ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │░░░░░░║   ║ ░░░░░░░░ ║   ║░░░░░░└────────────┘░░  ║
 ║  ░░└──────────┬──┬──────────┘░░░░░░║   ║ ░░░░░░●  ║   ║░░░░░░░░░░░░░░░░░░░░  ║
 ║  ░░░░░░░░░░░░░│  │░░░░░░░░░░░░░░░░░║   ║ ░░░░░░░░ ║   ║░░░░░░▄████████████▄░░  ║
 ║  ░░▄████████████████████████▄░░░░░░╚═══╩══════════╩═══╝░░░░░░█  🔦   💳   █░░  ║
 ║  ░░█  [o][o][o]        ===  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█  ════════  █░░  ║
 ║  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
-VOCE PEGOU: CHAVE ENFERRUJADA.
+Voce esta na sala de controle principal da estacao. Um monitor exibe falhas no
+sistema e uma escotilha blindada bloqueia a passagem ao norte.
+ITENS VISIVEIS: LANTERNA TATICA, CARTAO MAGNETICO.
+SAIDAS OBVIAS: SUL, OESTE.
+--------------------------------------------------------------------------------
+OK. VOCE PEGOU: CHAVE ENFERRUJADA.
 
 INVENTARIO (1/6):
 - 🗝️ CHAVE ENFERRUJADA
@@ -134,7 +144,7 @@ O QUE VOCE FAZ AGORA? > _
 
 ## 🏷️ Versão
 
-* **Versão Atual:** `1.0` (Lançamento inicial com suporte a calibração dinâmica de colunas, renderização híbrida ASCII/Emoji, remoção/adição dinâmica de itens no cenário e sistema de inventário limitado a 6 espaços).
+* **Versão Atual:** `1.2` (Fidelidade ao CP400 com ortografia ASCII de 7 bits sem acentos, interface *Split-Screen* estilo *Scott Adams*, matriz consistente de 20 a 30 salas, mecânica de escuridão/luz, inventário de 6 itens com combinação e sistema de pontuação de 0 a 100).
 
 ## 📄 Licença
 
